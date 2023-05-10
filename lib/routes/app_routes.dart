@@ -11,7 +11,6 @@ import 'package:mvdb/View/Ticket%20Booking/Binding/ticket_booking_binding.dart';
 import '../View/Cinema Seat/Binding/cinema_seat_binding.dart';
 import '../View/Player/Binding/player_binding.dart';
 import '../View/Player/Screen/player_screen.dart';
-import '../View/Search Details/Screen/search_details_screen.dart';
 import '../View/Ticket Booking/Screen/ticket_booking_screen.dart';
 
 class AppRoutes {
@@ -42,12 +41,6 @@ class AppRoutes {
       page: () => Player(),
       bindings: [
         PlayerBinding(),
-      ],
-    ),
-    GetPage(name: searchDetails,
-      page: ()=>SearchDetails(),
-      bindings: [
-        MovieDetailsBinding()
       ],
     ),
     GetPage(name: ticketBooking,

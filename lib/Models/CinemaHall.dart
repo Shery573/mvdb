@@ -1,4 +1,5 @@
 import '../View/Cinema Seat/Controller/cinema_seat_controller.dart';
+import '../View/Cinema Seat/Screen/cinema_seat_screen.dart';
 
 class CinemaHall {
 

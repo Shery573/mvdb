@@ -62,9 +62,9 @@ class MovieDetails extends StatelessWidget {
                                   fontWeight: FontWeight.w500),
                             ),
                             Text(
-                              'Releasing at :${controller.args.releaseDate}',
+                              'Releas date :  ${controller.args.releaseDate}',
                               style: GoogleFonts.poppins(
-                                  color: Color.fromARGB(
+                                  color: const Color.fromARGB(
                                       255, 231, 233, 236),
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500),
@@ -74,16 +74,7 @@ class MovieDetails extends StatelessWidget {
                               width: 243,
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  // print(trailerKey);
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //     builder: (context) =>
-                                  //         MoviePlayerPage(
-                                  //             videoKey: trailerKey
-                                  //                 .toString()),
-                                  //   ),
-                                  // );
+                                  Get.toNamed('/player', arguments: controller.nextArgs);
                                   print('watch trailer');
                                 },
                                 child: Row(
@@ -113,12 +104,11 @@ class MovieDetails extends StatelessWidget {
                             ElevatedButton(
                               onPressed: () {
                                 print('Get tickets');
-                                // Navigator.of(context).pushNamed(
-                                //     SeatBookScreen.routeName,
-                                //     arguments: {
-                                //       'title': controller.args.title,
-                                //       'releaseDate': controller.args.releaseDate
-                                //     });
+                                Get.toNamed(AppRoutes.ticketBooking,
+                                    arguments: {
+                                      'title':controller.args.title,
+                                      'releaseDate': controller.args.releaseDate
+                                    });
                               },
                               child: Text('Get tickets'),
                               style: ElevatedButton.styleFrom(

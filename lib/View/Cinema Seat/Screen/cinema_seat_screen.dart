@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mvdb/View/Cinema%20Seat/Controller/cinema_seat_controller.dart';
 
-
 class CinemaSeat extends StatefulWidget {
   const CinemaSeat({Key? key}) : super(key: key);
 
@@ -354,36 +353,31 @@ class _CinemaSeatState extends State<CinemaSeat> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      print('done');
-                                    },
-                                    child: Container(
-                                      width: deviceWidth * (200 / 375),
-                                      height: isPortrait
-                                          ? deviceHeight * (65 / 813)
-                                          : deviceHeight * 0.12,
-                                      padding: EdgeInsets.all(10),
-                                      child: Stack(
-                                        children: [
-                                          Positioned.fill(
-                                            child: SvgPicture.asset(
-                                              'assets/icons/SelectSeatsBtn.svg',
-                                              fit: BoxFit.fill,
-                                            ),
+                                  Container(
+                                    width: deviceWidth * (200 / 375),
+                                    height: isPortrait
+                                        ? deviceHeight * (65 / 813)
+                                        : deviceHeight * 0.12,
+                                    padding: EdgeInsets.all(10),
+                                    child: Stack(
+                                      children: [
+                                        Positioned.fill(
+                                          child: SvgPicture.asset(
+                                            'assets/icons/SelectSeatsBtn.svg',
+                                            fit: BoxFit.fill,
                                           ),
-                                          Container(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              'Proceed to Pay',
-                                              style: GoogleFonts.poppins(
-                                                  color: Color(0xFFFFFFFF),
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            'Proceed to Pay',
+                                            style: GoogleFonts.poppins(
+                                                color: Color(0xFFFFFFFF),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
                                 ],
@@ -406,25 +400,105 @@ class _CinemaSeatState extends State<CinemaSeat> {
                     SizedBox(
                       height: deviceHeight * (50 / 813),
                     ),
-                    SingleChildScrollView(
-                      child: Center(
-                        child: Container(
-                          width: deviceWidth * (330 / 375),
-                          height: deviceHeight * (200 / 813),
-                          child: Transform.scale(
-                            scale: 1.0,
-                            child: GridView.count(
-                              crossAxisCount: 24,
-                              children: List.generate(
-                                controller.rows.value *
-                                    controller.columns.value,
-                                (index) => Container(
-                                  height: 1,
-                                  width: 1,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        if (index == 0 ||
+                    Center(
+                      child: Container(
+                        width: deviceWidth * (330 / 375),
+                        height: deviceHeight * (200 / 813),
+                        child: Transform.scale(
+                          scale: 1.0,
+                          child: GridView.count(
+                            physics: const NeverScrollableScrollPhysics(),
+                            crossAxisCount: 24,
+                            children: List.generate(
+                              controller.rows.value *
+                                  controller.columns.value,
+                              (index) => Container(
+                                height: 1,
+                                width: 1,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      if (index == 0 ||
+                                          index == 1 ||
+                                          index == 2 ||
+                                          index == 21 ||
+                                          index == 22 ||
+                                          index == 23 ||
+                                          index == 24 ||
+                                          index == 48 ||
+                                          index == 72 ||
+                                          index == 47 ||
+                                          index == 71 ||
+                                          index == 95 ||
+                                          index == 5 ||
+                                          index == 29 ||
+                                          index == 53 ||
+                                          index == 77 ||
+                                          index == 101 ||
+                                          index == 25 ||
+                                          index == 149 ||
+                                          index == 173 ||
+                                          index == 197 ||
+                                          index == 221 ||
+                                          index == 5 + 13 ||
+                                          index == 29 + 13 ||
+                                          index == 53 + 13 ||
+                                          index == 77 + 13 ||
+                                          index == 101 + 13 ||
+                                          index == 25 + 13 ||
+                                          index == 149 + 13 ||
+                                          index == 173 + 13 ||
+                                          index == 197 + 13 ||
+                                          index == 221 + 13) {
+                                        return;
+                                      }
+                                      int selectedSeatR = (index / 24).ceil();
+                                      int selectedSeatC = index % 24;
+                                      controller.selectedSeat.value =
+                                          '$selectedSeatR / $selectedSeatC';
+                                      print(index);
+                                      int row =
+                                          (index / controller.columns.value)
+                                              .floor();
+                                      int col =
+                                          index % controller.columns.value;
+                                      if (controller.seatTypes[row][col] ==
+                                          0) {
+                                        if (index > 215 && index < 240) {
+                                          controller.seatTypes[row][col] = 2;
+                                          controller.totalCost +=
+                                              controller.premiumSeatPrice;
+                                        } else {
+                                          controller.seatTypes[row][col] = 1;
+                                          controller.totalCost +=
+                                              controller.regularSeatPrice;
+                                        }
+                                        // Update the selected row and column
+                                        controller.selectedRow = row;
+                                        controller.selectedCol = col;
+                                      } else {
+                                        if (controller.seatTypes[row][col] ==
+                                            2) {
+                                          controller.totalCost -=
+                                              controller.premiumSeatPrice;
+                                        } else {
+                                          controller.totalCost -=
+                                              controller.regularSeatPrice;
+                                        }
+                                        controller.seatTypes[row][col] = 0;
+                                        controller.selectedRow = -1;
+                                        controller.selectedCol = -1;
+                                      }
+                                      if (controller.selectedRow != -1 &&
+                                          controller.selectedCol != -1) {
+                                        index = controller.selectedRow *
+                                                controller.columns.value +
+                                            controller.selectedCol;
+                                      }
+                                    });
+                                  },
+                                  child: SizedBox(
+                                    child: (index == 0 ||
                                             index == 1 ||
                                             index == 2 ||
                                             index == 21 ||
@@ -451,113 +525,32 @@ class _CinemaSeatState extends State<CinemaSeat> {
                                             index == 53 + 13 ||
                                             index == 77 + 13 ||
                                             index == 101 + 13 ||
-                                            index == 25 + 13 ||
                                             index == 149 + 13 ||
                                             index == 173 + 13 ||
                                             index == 197 + 13 ||
-                                            index == 221 + 13) {
-                                          return;
-                                        }
-                                        int selectedSeatR = (index / 24).ceil();
-                                        int selectedSeatC = index % 24;
-                                        controller.selectedSeat.value =
-                                            '$selectedSeatR / $selectedSeatC';
-                                        print(index);
-                                        int row =
-                                            (index / controller.columns.value)
-                                                .floor();
-                                        int col =
-                                            index % controller.columns.value;
-                                        if (controller.seatTypes[row][col] ==
-                                            0) {
-                                          if (index > 215 && index < 240) {
-                                            controller.seatTypes[row][col] = 2;
-                                            controller.totalCost +=
-                                                controller.premiumSeatPrice;
-                                          } else {
-                                            controller.seatTypes[row][col] = 1;
-                                            controller.totalCost +=
-                                                controller.regularSeatPrice;
-                                          }
-                                          // Update the selected row and column
-                                          controller.selectedRow = row;
-                                          controller.selectedCol = col;
-                                        } else {
-                                          if (controller.seatTypes[row][col] ==
-                                              2) {
-                                            controller.totalCost -=
-                                                controller.premiumSeatPrice;
-                                          } else {
-                                            controller.totalCost -=
-                                                controller.regularSeatPrice;
-                                          }
-                                          controller.seatTypes[row][col] = 0;
-                                          controller.selectedRow = -1;
-                                          controller.selectedCol = -1;
-                                        }
-                                        if (controller.selectedRow != -1 &&
-                                            controller.selectedCol != -1) {
-                                          index = controller.selectedRow *
-                                                  controller.columns.value +
-                                              controller.selectedCol;
-                                        }
-                                      });
-                                    },
-                                    child: SizedBox(
-                                      child: (index == 0 ||
-                                              index == 1 ||
-                                              index == 2 ||
-                                              index == 21 ||
-                                              index == 22 ||
-                                              index == 23 ||
-                                              index == 24 ||
-                                              index == 48 ||
-                                              index == 72 ||
-                                              index == 47 ||
-                                              index == 71 ||
-                                              index == 95 ||
-                                              index == 5 ||
-                                              index == 29 ||
-                                              index == 53 ||
-                                              index == 77 ||
-                                              index == 101 ||
-                                              index == 25 ||
-                                              index == 149 ||
-                                              index == 173 ||
-                                              index == 197 ||
-                                              index == 221 ||
-                                              index == 5 + 13 ||
-                                              index == 29 + 13 ||
-                                              index == 53 + 13 ||
-                                              index == 77 + 13 ||
-                                              index == 101 + 13 ||
-                                              index == 149 + 13 ||
-                                              index == 173 + 13 ||
-                                              index == 197 + 13 ||
-                                              index == 221 + 13 ||
-                                              index == 125 + 13 ||
-                                              index == 125)
-                                          ? Container(
-                                              color: Colors.white,
-                                            )
-                                          : Padding(
-                                              padding:
-                                                  const EdgeInsets.all(1.0),
-                                              child: SvgPicture.asset(
-                                                controller.seatTypes[index ~/
-                                                            controller.columns
-                                                                .value][index %
-                                                            controller.columns
-                                                                .value] ==
-                                                        0
-                                                    ? index > 215 && index < 240
-                                                        ? 'assets/icons/premium.svg'
-                                                        : 'assets/icons/regular.svg'
-                                                    : 'assets/icons/selected_seat.svg',
-                                                fit: BoxFit.scaleDown,
-                                              ),
+                                            index == 221 + 13 ||
+                                            index == 125 + 13 ||
+                                            index == 125)
+                                        ? Container(
+                                            color: Colors.white,
+                                          )
+                                        : Padding(
+                                            padding:
+                                                const EdgeInsets.all(1.0),
+                                            child: SvgPicture.asset(
+                                              controller.seatTypes[index ~/
+                                                          controller.columns
+                                                              .value][index %
+                                                          controller.columns
+                                                              .value] ==
+                                                      0
+                                                  ? index > 215 && index < 240
+                                                      ? 'assets/icons/premium.svg'
+                                                      : 'assets/icons/regular.svg'
+                                                  : 'assets/icons/selected_seat.svg',
+                                              fit: BoxFit.scaleDown,
                                             ),
-                                    ),
+                                          ),
                                   ),
                                 ),
                               ),

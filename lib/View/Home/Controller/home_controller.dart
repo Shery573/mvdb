@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:dartz/dartz_unsafe.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 import 'package:mvdb/Models/Movies.dart';
 
-class HomeController extends GetxController{
+class HomeController extends GetxController {
   final _movies = <Movies>[].obs;
   var _page = 1;
   var _isLoading = false;
@@ -26,29 +26,7 @@ class HomeController extends GetxController{
     _page++;
     _isLoading = false;
   }
-  // Future<List<Movies>> getMovie (int page)async{
-  //   RxList<Movies> abc=<Movies>[].obs;
-  //   if(page==1){
-  //   var uri =
-  //   Uri.parse('https://api.themoviedb.org/3/movie/upcoming?api_key=05dee23f86abf205d7c36db7af088b8e');
-  //
-  //     var response = await http.get(
-  //       uri,
-  //       headers: <String, String>{
-  //         'Content-Type': 'application/json',
-  //       },
-  //     );
-  //     var result = jsonDecode(response.body);
-  //  print(result);
-  //   var abc=result["results"] as List<Map>;
-  //   }
-  //  for (var element in abc) {
-  //    Movies movies=Movies(name: element["original_language"],
-  //        backDrop: backDrop,
-  //        poster: poster,
-  //        overView: overView,
-  //        releaseDate: releaseDate)
-  //  }}
+
   Future<List<Movies>> _fetchMoviesFromApi(int page) async {
     var uri = Uri.parse(
         'https://api.themoviedb.org/3/movie/upcoming?api_key=05dee23f86abf205d7c36db7af088b8e&page=$page');
@@ -62,8 +40,7 @@ class HomeController extends GetxController{
     var result = jsonDecode(response.body);
     print(result);
     List<Movies> movies = [];
-    for (var item in result['results'])
-    {
+    for (var item in result['results']) {
       movies.add(Movies(
           name: item['original_title'],
           id: item['id'].toString(),
@@ -75,4 +52,3 @@ class HomeController extends GetxController{
     return movies;
   }
 }
-

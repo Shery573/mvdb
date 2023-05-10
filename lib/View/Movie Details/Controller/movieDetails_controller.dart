@@ -58,27 +58,7 @@ class MovieDetailsController extends GetxController {
     }
   }
 
-  //
-  // Future<Map<String, dynamic>> _getMovieImages() async {
-  //
-  //
-  //   print(Uri.parse(
-  //       'https://api.themoviedb.org/3/movie/${args.movieId}/images?api_key=$apiKey'));
-  //   final response = await http.get(Uri.parse(
-  //       'https://api.themoviedb.org/3/movie/${args.movieId}/images?api_key=$apiKey'));
-  //   if (response.statusCode == 200) {
-  //     print('get movie images');
-  //     print(json.decode(response.body));
-  //
-  //     return json.decode(response.body);
-  //   } else {
-  //     //throw Exception('Failed to load movie images');
-  //     print('exception in movie player');
-  //     return json.decode(response.body);
-  //   }
-  // }
   Future<Map<String, dynamic>> _getMovieVideos() async {
-
     final response = await http.get(Uri.parse(
         'https://api.themoviedb.org/3/movie/${args.movieId}/videos?api_key=$apiKey&type=Trailer'));
     if (response.statusCode == 200) {
@@ -93,10 +73,10 @@ class MovieDetailsController extends GetxController {
 
       print(teaser);
       trailerKey = teaser != '' ? teaser['key'] : teaser['key'];
-      nextArgs={
-        'trailerKey':trailerKey,
+      nextArgs = {
+        'trailerKey': trailerKey,
       };
-print("Trailer Key: $trailerKey");
+      print("Trailer Key: $trailerKey");
       return json.decode(response.body);
     } else {
       //throw Exception('Failed to load movie images');
